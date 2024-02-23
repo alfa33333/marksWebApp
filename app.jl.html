@@ -1,0 +1,9 @@
+<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" row-key="ID">
+    <template v-slot:top-right="">
+        <q-input debounce="300" label="" v-model="TableSearch_dfilter" placeholder="Search" dense="">
+            <template v-slot:append="">
+                <q-icon name="search"></q-icon>
+            </template>
+        </q-input>
+    </template>
+</q-table>
