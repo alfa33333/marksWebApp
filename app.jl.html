@@ -1,4 +1,10 @@
-<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" row-key="ID">
+<header class="bg-blue-1 st-header q-pa-sm text-center">
+    <h1 class="st-header__title text-h2 ">
+        Marking software
+    </h1>
+</header>
+
+<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
     <template v-slot:top-right="">
         <q-input debounce="300" label="" v-model="TableSearch_dfilter" placeholder="Search" dense="">
             <template v-slot:append="">
@@ -7,3 +13,48 @@
         </q-input>
     </template>
 </q-table>
+
+<q-select v-model="selected_student" label="Student" :options="student_info"></q-select>
+
+<%row([
+        column(list(
+            bordered = true,
+            separator = true,
+            @recur("name in columns_info"),
+            item(clickable = true, item_section("{{name}}")),
+        ), size = 2, class = ""),
+        column(list(
+            bordered = true,
+            separator = true,
+            @recur("info in List_of_info"),
+            item(clickable = true, item_section("{{info}}")),
+        ), size = 2, class = ""),
+    ])%>
+
+<!-- <div class="row">
+    <div class="bg-blue-2 column col-2">
+        <span>
+            Hello
+        </span>
+    </div>
+    <div class="bg-red-2 column col-4">
+        <span>
+            Genie
+        </span>
+    </div>
+    <q-list bordered="" v-for="name in columns_info" separator="">
+        <q-item clickable="">
+            <q-item-section>
+                {{name}}
+            </q-item-section>
+        </q-item>
+    </q-list>
+
+    <q-list bordered="" v-for="info in List_of_info" separator="">
+        <q-item clickable="">
+            <q-item-section>
+                {{info}}
+            </q-item-section>
+        </q-item>
+    </q-list>
+</div> -->
