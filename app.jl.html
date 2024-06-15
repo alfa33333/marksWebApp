@@ -12,6 +12,80 @@
             </template>
         </q-input>
     </template>
+    <template v-slot:body="props">
+        <q-tr :props="props">
+            <q-td key="Student" :props="props">
+                {{ props.row.Student }}
+            </q-td>
+            <q-td key="ID" :props="props">
+                {{ props.row.ID }}
+            </q-td>
+            <q-td key="intID" :props="props">
+                {{ props.row.intID }}
+            </q-td>
+            <q-td key="assignment" :props="props">
+                <q-input
+                    v-model.number="props.row.assignment"
+                    input-class="text-right"
+                    type="number"
+                    dense
+                    borderless
+                />
+            </q-td>
+        </q-tr>
+    </template>
+</q-table>
+
+<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
+    <template v-slot:top-right="">
+        <q-input debounce="300" label="" v-model="TableSearch_dfilter" placeholder="Search" dense="">
+            <template v-slot:append="">
+                <q-icon name="search"></q-icon>
+            </template>
+        </q-input>
+    </template>
+    <template v-slot:body="props">
+        <q-tr :props="props">
+            <q-td v-for="column in table.columns" >
+                <div v-if="column.name == 'Student' || column.name == 'ID' || column.name == 'intID' ">
+                    {{props.row[column.name]}}
+                </div>
+                <q-input v-else
+                        v-model.number="props.row[column.name]"
+                        input-class="text-right"
+                        type="number"
+                        dense
+                        borderless
+                    />                
+            </q-td>
+            <!-- <q-td key="Student" >
+                {{ props.row.Student }}
+            </q-td>
+            <q-td key="ID" >
+                {{ props.row.ID }}
+            </q-td>
+            <q-td key="intID" >
+                {{ props.row.intID }}
+            </q-td>
+            <q-td key="assignment" >
+                <q-input
+                    v-model.number="props.row.assignment"
+                    input-class="text-right"
+                    type="number"
+                    dense
+                    borderless
+                />
+            </q-td> -->
+        </q-tr>
+    </template>
+</q-table>
+
+<p>
+    Button state: {{Button_process}}
+</p>
+<q-btn label="Process" v-on:click="Button_process=true"></q-btn>
+
+<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
 </q-table>
 
 <q-select v-model="selected_student" label="Student" :options="student_info"></q-select>
