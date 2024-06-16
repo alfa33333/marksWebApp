@@ -4,7 +4,7 @@
     </h1>
 </header>
 
-<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
+<!-- <q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
     <template v-slot:top-right="">
         <q-input debounce="300" label="" v-model="TableSearch_dfilter" placeholder="Search" dense="">
             <template v-slot:append="">
@@ -34,7 +34,7 @@
             </q-td>
         </q-tr>
     </template>
-</q-table>
+</q-table> -->
 
 <q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
     <template v-slot:top-right="">
@@ -58,35 +58,39 @@
                         borderless
                     />                
             </q-td>
-            <!-- <q-td key="Student" >
-                {{ props.row.Student }}
-            </q-td>
-            <q-td key="ID" >
-                {{ props.row.ID }}
-            </q-td>
-            <q-td key="intID" >
-                {{ props.row.intID }}
-            </q-td>
-            <q-td key="assignment" >
-                <q-input
-                    v-model.number="props.row.assignment"
-                    input-class="text-right"
-                    type="number"
-                    dense
-                    borderless
-                />
-            </q-td> -->
         </q-tr>
     </template>
 </q-table>
 
-<p>
-    Button state: {{Button_process}}
-</p>
-<q-btn label="Process" v-on:click="Button_process=true"></q-btn>
 
-<q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
-</q-table>
+
+<div class="full-width row wrap justify-end content-end">
+<q-input
+    v-model.number="midtermWeight"
+    type="number"
+    input-class="text-right"
+    class="q-mr-sm"
+    style="max-width: 100px;"
+  />
+<q-btn color="orange" label="Set Midterm weight" class="q-mr-sm" icon-right="done_outline" v-on:click="Button_Midterm=true"></q-btn>
+<q-input
+    v-model.number="finalWeight"
+    type="number"
+    input-class="text-right"
+    class="q-mr-sm"
+    style="max-width: 100px;"
+  />
+<q-btn color="orange" label="Set Final weight" class="q-mr-sm" icon-right="done_outline" v-on:click="Button_Final=true"></q-btn>
+
+</div>
+<div class="full-width row wrap justify-end content-end">
+    <q-btn color="red" label="Calculate marks"  class="q-mr-sm"  icon-right="published_with_changes" v-on:click="Button_process = true"></q-btn>
+    <q-btn color="blue" label="Save"  class="q-mr-sm" v-on:click="Button_save=true"></q-btn>
+</div>
+
+
+<!-- <q-table flat="" bordered="" :columns="table.columns" v-model="table" title="List of students" :data="table.data" :filter="TableSearch_dfilter" :filter-method="rows" row-key="ID">
+</q-table> -->
 
 <q-select v-model="selected_student" label="Student" :options="student_info"></q-select>
 
