@@ -16,7 +16,15 @@ function update_dataframe!(df, table)
     end
 end
 
-studentDF = CSV.read("./testdata/gradesWfinalFeb.csv", DataFrame);
+function add_midterm(df)
+    return df.Midtermtest .* df.MidtermWeight
+end
+
+function add_final(df)
+    return df.FinalPercentage .* df.FinalWeight
+end
+
+studentDF = CSV.read("./testdata/gradesWfinaltest.csv", DataFrame);
 
 @app begin
     # studentDF = CSV.read("./testdata/gradesWfinalSept.csv", DataFrame);
@@ -56,18 +64,19 @@ studentDF = CSV.read("./testdata/gradesWfinalFeb.csv", DataFrame);
     @onbutton Button_process begin
         update_dataframe!(studentDF, table)
         if "MidtermMark" in names(studentDF)
-            studentDF.MidtermMark = round.(studentDF.midterm .* studentDF.MidtermWeight, digits=2)
+            studentDF.MidtermMark = round.(add_midterm(studentDF), digits=2)
         else
-            insertcols!(studentDF, :MidtermMark => studentDF.midterm .* studentDF.MidtermWeight)
+            insertcols!(studentDF, :MidtermMark => add_midterm(studentDF))
         end
 
         if "FinalMark" in names(studentDF)
-            studentDF.FinalMark = round.(studentDF.finalExam .* studentDF.FinalWeight, digits=2)
+            studentDF.FinalMark = round.(add_final(studentDF), digits=2)
         else
-            insertcols!(studentDF, :FinalMark => studentDF.finalExam .* studentDF.FinalWeight)
+            insertcols!(studentDF, :FinalMark => add_final(studentDF))
         end
-        studentDF.homework = sum(eachcol(studentDF[:,[ x for x in names(studentDF) if occursin("assignment",x)]]))
-        studentDF.Grade = round.(studentDF.MidtermMark .+ studentDF.FinalMark .+ studentDF.homework .+ studentDF.project)
+        list_of_assignments = [x for x in names(studentDF) if (occursin("assignment",x) || occursin("Assignment",x))]
+        studentDF.homework = sum(eachcol(studentDF[:,list_of_assignments]))
+        studentDF.Grade = round.(studentDF.MidtermMark .+ studentDF.FinalMark .+ studentDF.homework .+ studentDF.Finalproject)
         table = DataTable(studentDF)
         @info "Grades were calculated"
         notify(__model__, "Grades were calculated")
